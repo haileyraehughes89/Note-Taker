@@ -1,11 +1,12 @@
 const express = require("express");
-const path = require(`path`);
-const newNote = express.Router();
+const notes = express.Router();
 const fs = require(`fs`);
 const util = require(`util`);
 const uuid = require(`../helpers/uuid`);
+const savedNoteRouter = require(`./savedNote.js`);
 
 const readFromFile = util.promisify(fs.readFile);
+
 const writeToFile = (destination, content) => {
   fs.writeFile(destination, JSON.stringify(content, null, 4), (err) =>
     err ? console.error(err) : console.info(`\nData written to ${destination}`)
@@ -24,30 +25,32 @@ const readAndAppend = (content, file) => {
   });
 };
 
-newNote.get(`/`, (req, res) => {
+notes.use(`/savedNote`, savedNoteRouter);
+
+notes.get(`/`, (req, res) => {
   readFromFile(`./db.json`).then((data) => {
     const notes = JSON.parse(data);
     res.json(notes);
   });
 });
 
-newNote.post("/", (req, res) => {
+notes.post("/", (req, res) => {
   console.log(req.body);
 
   const { text, title } = req.body;
 
   if (req.body) {
-    const newNote = {
+    const notes = {
       title,
       text,
-      note_id: uuid(),
+      id: uuid(),
     };
 
-    readAndAppend(newNote, "./db.json");
+    readAndAppend(notes, "./db.json");
     res.json(`Tip added successfully 🚀`);
   } else {
     res.error("Error in adding note");
   }
 });
 
-module.exports = newNote;
+module.exports = notes;
