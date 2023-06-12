@@ -3,7 +3,6 @@ const notes = express.Router();
 const fs = require(`fs`);
 const util = require(`util`);
 const uuid = require(`../helpers/uuid`);
-const savedNoteRouter = require(`./savedNote.js`);
 
 const readFromFile = util.promisify(fs.readFile);
 
@@ -24,8 +23,6 @@ const readAndAppend = (content, file) => {
     }
   });
 };
-
-notes.use(`/savedNote`, savedNoteRouter);
 
 notes.get(`/`, (req, res) => {
   readFromFile(`./db.json`).then((data) => {
