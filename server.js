@@ -6,7 +6,7 @@ const app = express();
 // const savedNote = require(`./routes/savedNote`);
 const api = require(`./routes/notes`);
 
-const PORT = rocess.env.PORT || 3002;
+const PORT = process.env.PORT || 3002;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
