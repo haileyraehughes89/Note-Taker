@@ -15,6 +15,10 @@
 
 ## Usage
 
+
+https://github.com/haileyraehughes89/Note-Taker/assets/127250721/71be7840-c18b-4347-be6b-bfddc3aa07f6
+
+
   Deployed Application: https://dailyplanner-fb5a519fff17.herokuapp.com/
 
 
