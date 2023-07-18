@@ -50,4 +50,27 @@ notes.post("/", (req, res) => {
   }
 });
 
+notes.delete("/:id", async (req, res) => {
+  try {
+    const noteId = req.params.id;
+
+    const notesData = await readFromFile("./db.json");
+    const notes = JSON.parse(notesData);
+
+    const noteIndex = notes.findIndex((note) => note.id === noteId);
+
+    if (noteIndex === -1) {
+      res.status(404).json({ message: "No note found with this ID!" });
+    } else {
+      notes.splice(noteIndex, 1);
+
+      writeToFile("./db.json", notes);
+
+      res.status(200).json({ message: "Note deleted successfully!" });
+    }
+  } catch (err) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 module.exports = notes;
